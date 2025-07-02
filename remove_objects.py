@@ -30,6 +30,12 @@ class Obstacle:
         self.angle = angle
         self.distance = distance
 
+    def __lt__(self, other):
+        return self.distance < other.distance
+
+    def __gt__(self, other):
+        return self.distance > other.distance
+
 def calculate_turn_amount(current_angle, target_angle):
     """Compute the shortest rotation to the target angle"""
     turn_amount = (target_angle - current_angle + 540) % 360 - 180
@@ -84,7 +90,8 @@ def terminate_object(obstacle):
     drive.straight(-DISTANCE_THRESHOLD)
 
 def main():
-    obstacles = get_obstacles() 
+    obstacles = get_obstacles()
+    obstacles = reversed(sorted(obstacles))
 
     for obs in obstacles:
         turn_to_angle(obs.angle)
