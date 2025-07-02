@@ -86,9 +86,9 @@ def terminate_object(obstacle):
     drive.straight(-DISTANCE_THRESHOLD)
 
 def shuffle(lst):
-    for i, item in enumerate(lst):
-        swapi = random.randrange(i, len(lst))
-        lst[i], lst[swapi] = lst[swapi], item
+    for i in range(len(lst) - 1, 0, -1):
+        j = random.randint(0, i)
+        lst[i], lst[j] = lst[j], lst[i]
 
 def main():
     obstacles = get_obstacles()
