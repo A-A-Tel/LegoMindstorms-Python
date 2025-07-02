@@ -1,4 +1,5 @@
 #!/usr/bin/env pybricks-micropython
+import random
 
 from pybricks.hubs import EV3Brick
 from pybricks.ev3devices import UltrasonicSensor, TouchSensor, Motor, GyroSensor, ColorSensor
@@ -78,16 +79,22 @@ def get_obstacles():
     return obstacles
 
 def terminate_object(obstacle):
+    turn_to_angle(obstacle.angle)
     arm.run_until_stalled(-1000)
     drive.straight(DISTANCE_THRESHOLD)
     arm.run_until_stalled(1000)
     drive.straight(-DISTANCE_THRESHOLD)
 
-def main():
-    obstacles = get_obstacles() 
+def shuffle(lst):
+    for i, item in enumerate(lst):
+        swapi = random.randrange(i, len(lst))
+        lst[i], lst[swapi] = lst[swapi], item
 
-    for obs in obstacles:
-        turn_to_angle(obs.angle)
-        terminate_object(obs)
+def main():
+    obstacles = get_obstacles()
+    shuffle(obstacles)
+
+    for obstacle in obstacles:
+        terminate_object(obstacle)
 
 main()
